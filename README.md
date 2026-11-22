@@ -21,6 +21,8 @@ That's it. The right to participate is derived directly from holding an Agent ID
 
 Agent ID contract (BNB Chain): `0x60b9262456de011f7d15a54cdd8c48baaa8b022f` (SPACE ID Agent ID, ERC-721, non-transferable).
 
+**Deployed (BSC mainnet):** [`0x37231FdbBd2901a2304353e7576606440c0f80f4`](https://bscscan.com/address/0x37231FdbBd2901a2304353e7576606440c0f80f4) — **Live demo:** https://qin668586-beep.github.io/agent-gate/
+
 ## Why it matters
 
 Agent ID is a non-transferable on-chain identity (`name.ai`). That makes it usable as a **permission primitive**, not just a username: access gating, participation proofs, drop eligibility, reputation — all readable on-chain with a single `balanceOf` call.
