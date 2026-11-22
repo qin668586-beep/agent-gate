@@ -113,8 +113,21 @@ function addrArg(a) { return pad32(a.toLowerCase().replace(/^0x/, "")); }
 function uintArg(n) { return pad32(BigInt(n).toString(16)); }
 function toBig(hex) { return hex && hex !== "0x" ? BigInt(hex) : 0n; }
 
-function callData(to, data) {
-  return window.ethereum.request({ method: "eth_call", params: [{ to: to, data: data }, "latest"] });
+var RPC_URL = "https://bsc-dataseed.bnbchain.org";
+
+/* 读取走只读 RPC（无需钱包）；写入才用 window.ethereum */
+async function callData(to, data) {
+  if (window.ethereum && window.ethereum.request) {
+    return window.ethereum.request({ method: "eth_call", params: [{ to: to, data: data }, "latest"] });
+  }
+  var res = await fetch(RPC_URL, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: to, data: data }, "latest"] })
+  });
+  var j = await res.json();
+  if (j.error) throw new Error(j.error.message || "rpc error");
+  return j.result;
 }
 
 async function refresh() {
@@ -192,6 +205,9 @@ async function checkIn() {
     $("checkin").disabled = false;
   }
 }
+
+/* 打开页面就先拉一次公开统计（不依赖钱包） */
+refresh();
 
 $("connect").addEventListener("click", connect);
 $("checkin").addEventListener("click", checkIn);

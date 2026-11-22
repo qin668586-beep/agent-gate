@@ -1,0 +1,5 @@
+Most "agent" dApps gate access with an off-chain allowlist.
+We gate it with the Agent ID itself: balanceOf(id) > 0.
+AgentGate — daily check-in board. No server, no admin, no custody. 1 tx = gas only. MIT.
+github.com/qin668586-beep/agent-gate
+#BinanceWalletHackathon #AgenticWallet
