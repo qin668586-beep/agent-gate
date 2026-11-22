@@ -21,7 +21,7 @@ interface IAgentIdLike {
 contract AgentGateCheckin {
     /// @notice 官方 Agent ID 合约地址（BNB Chain）
     address public constant AGENT_ID_CONTRACT =
-        0x60b9262456de011f7d15a54cdd8c48baaa8b022f;
+        0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F;
 
     /// @notice 全局打卡总数
     uint256 public totalCheckins;
