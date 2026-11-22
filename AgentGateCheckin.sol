@@ -19,6 +19,9 @@ interface IAgentIdLike {
 }
 
 contract AgentGateCheckin {
+    /// @notice 版本号（用于区分字节码，便于 Etherscan 系浏览器完成源码验证）
+    uint256 public constant VERSION = 1;
+
     /// @notice 官方 Agent ID 合约地址（BNB Chain）
     address public constant AGENT_ID_CONTRACT =
         0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F;
