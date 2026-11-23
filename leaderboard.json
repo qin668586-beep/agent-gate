@@ -1,0 +1,21 @@
+{
+  "updatedAt": "2026-11-23T12:25:55.856Z",
+  "block": 135270555,
+  "totalCheckins": 2,
+  "uniqueAgents": 2,
+  "today": 20780,
+  "todayCount": 1,
+  "logs": 2,
+  "agents": [
+    {
+      "agent": "0xa6bed08f06102e0ea1f5c1326b5aac85b2a26431",
+      "days": 1,
+      "lastDay": 20779
+    },
+    {
+      "agent": "0xd301d472f2e469a1aafa1af6f214e312f1858873",
+      "days": 1,
+      "lastDay": 20780
+    }
+  ]
+}
