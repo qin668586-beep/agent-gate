@@ -24,6 +24,8 @@
   a{color:#79b0ff}
   ul{padding-left:20px;margin:8px 0}
   .footer{color:var(--dim);font-size:12px;margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
+  #share a,#share button{display:inline-block;background:#1b2433;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px;text-decoration:none;cursor:pointer}
+  #share a:hover,#share button:hover{border-color:#3a4a63}
 </style>
 </head>
 <body>
@@ -49,6 +51,7 @@
       <button id="checkin" disabled>今日打卡</button>
     </p>
     <p id="msg" class="muted"></p>
+    <p id="share" style="display:none;gap:8px;flex-wrap:wrap;margin:10px 0 0"></p>
   </div>
 
   <div class="card">
@@ -194,7 +197,7 @@ async function checkIn() {
       await new Promise(function (r) { setTimeout(r, 3000); });
       var rc = await window.ethereum.request({ method: "eth_getTransactionReceipt", params: [hash] });
       if (rc && rc.blockNumber) {
-        if (rc.status === "0x1") { say("打卡成功 ✔ " + hash.slice(0, 12) + "…", "ok"); await refresh(); }
+        if (rc.status === "0x1") { say("打卡成功 ✔ " + hash.slice(0, 12) + "…", "ok"); showShare(hash); await refresh(); }
         else { say("交易失败（reverted）：可能今天已打过，或该地址没有 Agent ID。", "bad"); $("checkin").disabled = false; }
         return;
       }
@@ -204,6 +207,31 @@ async function checkIn() {
     say("打卡失败：" + ((e && e.message) || e).toString().slice(0, 160), "bad");
     $("checkin").disabled = false;
   }
+}
+
+/* 打卡成功后给出分享入口（拉到更多 Agent ID 持有者） */
+function showShare(hash) {
+  var box = $("share");
+  if (!box) return;
+  var page = location.href.split("#")[0].split("?")[0];
+  var txt = "我用 Agent ID 在 AgentGate 打了个卡：零金额、只花 gas，链上留一条记录。持有 .ai Agent ID 的都可以来打一次 —— " + page + " #BinanceWalletHackathon #AgenticWallet";
+  var a = document.createElement("a");
+  a.className = "btn ghost";
+  a.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(txt);
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.textContent = "分享到 X";
+  var b = document.createElement("button");
+  b.className = "btn ghost";
+  b.textContent = "复制打卡链接";
+  b.onclick = function () {
+    try { navigator.clipboard.writeText(page); b.textContent = "已复制 ✔"; } catch (e) { b.textContent = "复制失败"; }
+  };
+  box.innerHTML = "";
+  box.appendChild(a);
+  box.appendChild(b);
+  box.style.display = "flex";
+  box.dataset.tx = hash || "";
 }
 
 /* 打开页面就先拉一次公开统计（不依赖钱包） */
